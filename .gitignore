@@ -1,0 +1,12 @@
+# IDE
+.vscode
+
+# Python
+*.pyc
+**/__pycache__
+*.pkl
+dist
+build
+
+# Envs
+.env
