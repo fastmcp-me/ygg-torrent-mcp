@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ygg-torrent-mcp"
-version = "0.3.0"
+version = "0.4.0"
 description = "Ygg Torrent MCP Server"
 authors = ["@philogicae"]
 readme = "README.md"
