@@ -1,7 +1,0 @@
-bencodepy
-python-dotenv
-rich
-pydantic
-requests
-asyncio
-fastmcp

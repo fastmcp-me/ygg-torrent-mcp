@@ -3,7 +3,6 @@
 This repository provides a Python wrapper for the YggTorrent website and an MCP (Model Context Protocol) server to interact with it programmatically. This allows for easy integration of YggTorrent functionalities into other applications or services.
 
 
-
 ## Features
 
 -   API wrapper for [YggAPI](https://yggapi.eu/), an unofficial API for YggTorrent.
@@ -21,9 +20,15 @@ There are two primary ways to set up and run this project: using a local Python 
 
 ### Prerequisites
 
--   Python 3.12+ (for local Python setup)
+-   Python 3.10+ (for local Python setup)
 -   pip (Python package installer, for local Python setup)
 -   Docker and Docker Compose (for Docker setup)
+
+### 0. Install from PyPI
+
+```bash
+pip install ygg-torrent-mcp
+```
 
 ### 1. Local Python Environment Setup
 
@@ -42,7 +47,7 @@ There are two primary ways to set up and run this project: using a local Python 
 
 3.  **Install dependencies:**
     ```bash
-    pip install -r requirements.txt
+    pip install -e .
     ```
 
 4.  **Configure environment variables (if any):**
@@ -50,7 +55,7 @@ There are two primary ways to set up and run this project: using a local Python 
 
 5.  **Run the MCP Server:**
     ```bash
-    python -m src.mcp_server
+    python -m ygg_torrent
     ```
     The MCP server will be accessible locally on port 8000.
 
@@ -79,7 +84,7 @@ This project includes a `Dockerfile` and `docker-compose.yaml` for easy containe
 ### As Python Wrapper
 
 ```python
-from ygg_torrent_mcp import ygg_api
+from ygg_torrent import ygg_api
 
 results = ygg_api.search_torrents('...')
 for torrent in results:
@@ -89,9 +94,9 @@ for torrent in results:
 ### As MCP Server
 
 ```python
-from ygg_torrent_mcp import ygg_mcp
+from ygg_torrent import ygg_mcp
 
-ygg_mcp.run(transport="sse", host="0.0.0.0", port=8000)
+ygg_mcp.run(transport="sse")
 ```
 
 ### Via MCP Clients

@@ -19,7 +19,12 @@ async def call_tool(tool: str, args: dict[str, Any]):
         pr(f"Tool <{tool}>: {result}")
 
 
-run(call_resource("data://torrent_categories"))
-run(call_tool("search_torrents", {"query": "berserk", "limit": 3}))
-run(call_tool("get_torrent_details", {"torrent_id": 1268760, "with_magnet_link": True}))
-run(call_tool("get_magnet_link", {"torrent_id": 1268760}))
+if __name__ == "__main__":
+    run(call_resource("data://torrent_categories"))
+    run(call_tool("search_torrents", {"query": "berserk", "limit": 3}))
+    run(
+        call_tool(
+            "get_torrent_details", {"torrent_id": 1268760, "with_magnet_link": True}
+        )
+    )
+    run(call_tool("get_magnet_link", {"torrent_id": 1268760}))

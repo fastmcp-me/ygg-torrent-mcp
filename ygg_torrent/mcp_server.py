@@ -45,7 +45,3 @@ def get_torrent_details(
 def get_magnet_link(torrent_id: int) -> str | None:
     """Get the magnet link for a specific torrent."""
     return ygg_api.get_magnet_link(torrent_id)
-
-
-if __name__ == "__main__":
-    mcp.run(transport="sse", host="0.0.0.0", port=8000)
