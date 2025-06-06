@@ -6,7 +6,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 ## Features
 
 -   API wrapper for [YggAPI](https://yggapi.eu/), an unofficial API for YggTorrent.
--   **Your Ygg passkey is not exposed, but injected locally in the torrent file/magnet link instead.**
+-   **Your Ygg passkey is injected locally into the torrent file/magnet link, ensuring it's not exposed externally.**
 -   MCP server interface for standardized communication.
 -   Search for torrents on YggTorrent (MCP tool).
 -   Get details for a specific torrent (MCP tool).
@@ -20,11 +20,12 @@ There are two primary ways to set up and run this project: using a local Python 
 
 ### Prerequisites
 
+-   An active YggTorrent account with a passkey.
 -   Python 3.10+ (for local Python setup)
 -   pip (Python package installer, for local Python setup)
 -   Docker and Docker Compose (for Docker setup)
 
-### 0. Install from PyPI
+### Install from PyPI
 
 ```bash
 pip install ygg-torrent-mcp
@@ -50,7 +51,8 @@ pip install ygg-torrent-mcp
     pip install -e .
     ```
 
-4.  **Configure environment variables (if any):**
+4.  **Configure environment variables:**
+
     Copy the `.env.example` file to `.env` and fill in the required variables (Ygg passkey).
 
 5.  **Run the MCP Server:**
@@ -68,15 +70,18 @@ This project includes a `Dockerfile` and `docker-compose.yaml` for easy containe
     git clone https://github.com/philogicae/ygg-torrent-mcp.git
     cd ygg-torrent-mcp
     ```
+2.  **Configure environment variables:**
 
-2.  **Build and run the Docker container using Docker Compose:**
-    Run:
+    Copy the `.env.example` file to `.env` and fill in the required variables (Ygg passkey).
+
+3.  **Build and run the Docker container using Docker Compose:**
     ```bash
     docker-compose -f docker/compose.yaml up --build
     ```
-    This command will build the Docker image (if it doesn't exist) and start the service on port 8765.
+    This command will build the Docker image (if it doesn't exist) and start the service.
 
-3.  **Accessing the server:**
+4.  **Accessing the server:**
+
     The MCP server will be accessible on port 8765.
 
 ## Usage
@@ -117,7 +122,6 @@ Once the MCP server is running, you can interact with it using any MCP-compatibl
     }
   }
 }
-
 ```
 
 ## Contributing
