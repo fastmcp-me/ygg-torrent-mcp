@@ -45,3 +45,12 @@ def get_torrent_details(
 def get_magnet_link(torrent_id: int) -> str | None:
     """Get the magnet link for a specific torrent."""
     return ygg_api.get_magnet_link(torrent_id)
+
+
+@mcp.tool()
+def download_torrent_file(
+    torrent_id: int,
+    output_dir: str,
+) -> str | None:
+    """Download the torrent file."""
+    return ygg_api.download_torrent_file(torrent_id, output_dir)
