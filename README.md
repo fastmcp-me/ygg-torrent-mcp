@@ -1,6 +1,6 @@
 # YggTorrent MCP Server & Wrapper
 
-[![PyPI version](https://badge.fury.io/py/ygg-torrent-mcp.svg)](https://badge.fury.io/py/ygg-torrent-mcp)
+[![PyPI version](https://badge.fury.io/py/ygg-torrent-mcp.svg?kill_cache=1)](https://badge.fury.io/py/ygg-torrent-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This repository provides a Python wrapper for the YggTorrent website and an MCP (Model Context Protocol) server to interact with it programmatically. This allows for easy integration of YggTorrent functionalities into other applications or services.
