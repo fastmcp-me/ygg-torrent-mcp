@@ -8,5 +8,8 @@
 dist
 build
 
+# Pytest
+.pytest_cache
+
 # Envs
 .env
