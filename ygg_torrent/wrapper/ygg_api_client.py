@@ -66,7 +66,7 @@ class YggTorrentApi:
         query: str = "",
         categories: list[int] | list[str] | None = None,
         page: int = 1,
-        per_page: str = "25",
+        per_page: int = 25,
         order_by: str = "seeders",
     ) -> list[Torrent] | None:
         """
@@ -174,7 +174,7 @@ class YggTorrentApi:
 
     def download_torrent_file(
         self, torrent_id: int, output_dir: str | Path = "."
-    ) -> bool:
+    ) -> str | None:
         """
         Download the .torrent file.
 
@@ -182,19 +182,20 @@ class YggTorrentApi:
             torrent_id: The ID of the torrent.
 
         Returns:
-            True if the download was successful, False otherwise.
+            The filename of the downloaded .torrent file or None.
         """
         try:
             file_bytes = self._download_torrent_file_bytes(torrent_id)
             if file_bytes and isinstance(file_bytes, bytes):
                 file_bytes = edit_torrent_bytes(file_bytes)
-                with open(Path(output_dir) / f"{torrent_id}.torrent", "wb") as f:
+                filename = f"{torrent_id}.torrent"
+                with open(Path(output_dir) / filename, "wb") as f:
                     f.write(file_bytes)
-                return True
+                return filename
         except Exception as e:
             pr(f"Error: {e}")
         pr("Failed to download torrent file")
-        return False
+        return None
 
 
 if __name__ == "__main__":
@@ -203,11 +204,6 @@ if __name__ == "__main__":
     client = YggTorrentApi()
     found_torrents = client.search_torrents(QUERY, CATEGORIES)
     if found_torrents:
-        # pr(found_torrents[:3])
-        first_id = found_torrents[0].id
-        if first_id:
-            pr(client.get_torrent_details(first_id, with_magnet_link=True))
-            # pr(client.get_magnet_link(first_id))
-            # client.download_torrent_file(first_id, output_dir=".")
+        pr(client.get_torrent_details(found_torrents[0].id, with_magnet_link=True))
     else:
         pr("No torrents found")

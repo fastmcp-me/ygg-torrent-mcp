@@ -25,23 +25,25 @@ def format_size(size_bytes: int | None) -> str:
     return f"{s} {size_name[i]}"
 
 
-def format_date(date_str: str) -> str:
-    """Converts a date string to a human-readable string."""
+def format_date(date_str: str | None) -> str:
+    """Converts an ISO date string to a human-readable string 'YYYY-MM-DD HH:MM:SS' or 'N/A' if input is None."""
+    if date_str is None:
+        return "N/A"
     return datetime.fromisoformat(date_str).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def format_torrent(torrent: dict[str, Any], torrent_id: int | None = None) -> Torrent:
-    """Converts a torrent dictionary to a human-readable string."""
+    """Converts a torrent data dictionary from the API into a Torrent model instance."""
     cat_id = torrent.get("category_id")
     return Torrent(
         id=torrent_id or torrent.get("id"),
-        title=torrent.get("title"),
-        category=get_category_name(cat_id) or cat_id,
+        filename=torrent.get("title"),
+        category=get_category_name(cat_id) or str(cat_id),
         size=format_size(torrent.get("size")),
         seeders=torrent.get("seeders"),
         leechers=torrent.get("leechers"),
-        downloads=torrent.get("downloads") or "N/A",
-        uploaded_at=format_date(torrent.get("uploaded_at")),
+        downloads=torrent.get("downloads") or None,
+        date=format_date(torrent.get("uploaded_at")),
         magnet_link=None,
     )
 
@@ -53,11 +55,13 @@ def check_categories(categories: list[int | str]) -> list[int]:
         if all(isinstance(cat, int) for cat in categories):
             processed_category_ids = categories
         elif all(isinstance(cat, str) for cat in categories):
+            temp_ids = []
             for keyword_val in categories:
-                cat_id = get_category_id(str(keyword_val).lower())
+                cat_id = get_category_id(keyword_val.lower())
                 if cat_id is not None:
-                    if cat_id not in processed_category_ids:
-                        processed_category_ids.append(cat_id)
+                    temp_ids.append(cat_id)
+            if temp_ids:
+                processed_category_ids = list(set(temp_ids))
             if not processed_category_ids and categories:
                 print(
                     f"Warning: None of the provided category keywords matched: {categories}."
