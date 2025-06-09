@@ -25,6 +25,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 - [Usage](#usage)
   - [As Python Wrapper](#as-python-wrapper)
   - [As MCP Server](#as-mcp-server)
+  - [As FastAPI Server](#as-fastapi-server)
   - [Via MCP Clients](#via-mcp-clients)
     - [Example for Windsurf](#example-for-windsurf)
 - [Contributing](#contributing)
@@ -35,6 +36,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 -   API wrapper for [YggAPI](https://yggapi.eu/), an unofficial API for YggTorrent
 -   **Your Ygg passkey is injected locally into the torrent file/magnet link, ensuring it's not exposed externally**
 -   MCP server interface for standardized communication
+-   FastAPI server interface for alternative HTTP access (e.g., for direct API calls or testing)
 -   Search for torrents on YggTorrent
 -   Get details for a specific torrent
 -   Retrieve magnet links
@@ -74,7 +76,7 @@ python -m ygg_torrent
 
 ### Option 2: Local Development Setup
 
-If you want to contribute to the project or run it from the source code, this project uses Poetry for dependency management.
+If you want to contribute to the project or run it from the source code, this project uses `uv` for fast Python packaging and virtual environment management.
 
 #### 1. Clone the Repository
 ```bash
@@ -82,27 +84,37 @@ git clone https://github.com/philogicae/ygg-torrent-mcp.git
 cd ygg-torrent-mcp
 ```
 
-#### 2. Install Dependencies using Poetry
+#### 2. Install Dependencies using `uv`
 
 After cloning, navigate into the project directory:
 ```bash
 cd ygg-torrent-mcp
 ```
-If you don't have Poetry installed, you can typically install it with pip:
+This project uses [`uv`](https://github.com/astral-sh/uv), a fast Python package installer and resolver:
+- Without python: [How to install uv](https://github.com/astral-sh/uv#installation)
+- With python:
 ```bash
-pip install poetry
+pip install uv
 ```
-Ensure Poetry's scripts directory is in your system's PATH. For other installation methods, see the [official Poetry installation guide](https://python-poetry.org/docs/#installation).
 
-Once Poetry is available, install all main and development dependencies (like `pytest`):
+First, create a virtual environment using `uv`:
 ```bash
-poetry install --with dev
+uv venv
 ```
-This command reads the `pyproject.toml` file, resolves dependencies, and installs them into the project's virtual environment (Poetry will create one if not already in an activated environment).
-
-If you only want to install the main runtime dependencies:
+Activate it:
 ```bash
-poetry install
+# On Linux/macOS
+source .venv/bin/activate
+# On Windows (Command Prompt)
+.venv\Scripts\activate.bat
+# On Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+```
+`uv` commands will typically auto-detect and use an active virtual environment or one named `.venv` in the project root.
+
+Next, install the project and its dependencies from `pyproject.toml`:
+```bash
+uv pip install -e .
 ```
 
 #### 3. Configure Environment Variables
@@ -172,6 +184,32 @@ from ygg_torrent import ygg_mcp
 ygg_mcp.run(transport="sse")
 ```
 
+### As FastAPI Server
+
+This project also includes a FastAPI server as an alternative way to interact with the YggTorrent functionalities via a standard HTTP API. This can be useful for direct API calls, integration with other web services, or for testing purposes.
+
+**Running the FastAPI Server:**
+```bash
+# Dev
+python -m ygg_torrent --fastapi
+# Prod
+uvicorn ygg_torrent.fastapi_server:app
+```
+- `--host <host>`: Default: `0.0.0.0`.
+- `--port <port>`: Default: `8000`.
+- `--reload`: Enables auto-reloading when code changes (useful for development).
+- `--workers <workers>`: Default: `1`.
+
+The FastAPI server will then be accessible at `http://<host>:<port>`
+
+**Available Endpoints:**
+The FastAPI server exposes similar functionalities to the MCP server. Key endpoints include:
+- `/`: A simple health check endpoint. Returns `{"status": "ok"}`.
+- `/docs`: Interactive API documentation (Swagger UI).
+- `/redoc`: Alternative API documentation (ReDoc).
+
+Environment variables (like `YGG_PASSKEY`) are configured the same way as for the MCP server (via an `.env` file in the project root).
+
 ### Via MCP Clients
 
 Once the MCP server is running, you can interact with it using any MCP-compatible client. The server will expose endpoints for:
@@ -183,18 +221,32 @@ Once the MCP server is running, you can interact with it using any MCP-compatibl
 -   `get_torrent_categories`: Get the categories of torrents.
 
 #### Example for Windsurf
-
+Configuration:
 ```json
 {
   "mcpServers": {
     ...
-    "mcp-ygg-torrent": {
+    "mcp-ygg-torrent-local": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "ygg-torrent-mcp",
+        "--refresh",
+        "python",
+        "-m",
+        "ygg_torrent",
+        "--stdio"
+      ],
+      "env": { "YGG_PASSKEY": "your_passkey_here" }
+    }
+    "mcp-ygg-torrent-remote": {
       "serverUrl": "http://127.0.0.1:8000/sse"
     }
     ...
   }
 }
 ```
+`mcp-ygg-torrent-local` requires [uv](https://github.com/astral-sh/uv#installation) installed.
 
 ## Contributing
 
