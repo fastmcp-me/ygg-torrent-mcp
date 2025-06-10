@@ -8,4 +8,4 @@ COPY pyproject.toml uv.lock README.md ./
 COPY ygg_torrent/ ./ygg_torrent/
 
 EXPOSE 8000
-CMD ["uv", "run", "-m", "ygg_torrent"]
+CMD ["uv", "run", "-m", "ygg_torrent", "--mode", "sse"]

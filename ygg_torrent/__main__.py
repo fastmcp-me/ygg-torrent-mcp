@@ -8,9 +8,11 @@ from .mcp_server import mcp
 def cli():
     parser = argparse.ArgumentParser(description="Run YggTorrent Server.")
     parser.add_argument(
-        "--fastapi",
-        action="store_true",
-        help="Run the FastAPI server instead of the MCP server.",
+        "--mode",
+        type=str,
+        choices=["stdio", "sse", "streamable-http", "fastapi"],
+        default="stdio",
+        help="Mode to run the server in. Default: stdio.",
     )
     parser.add_argument(
         "--host", type=str, default="0.0.0.0", help="Host to bind the server to."
@@ -32,15 +34,10 @@ def cli():
         default=1,
         help="Number of worker processes to use for the FastAPI server.",
     )
-    parser.add_argument(
-        "--stdio",
-        action="store_true",
-        help="Run the MCP server with stdio transport.",
-    )
 
     args = parser.parse_args()
 
-    if args.fastapi:
+    if args.mode == "fastapi":
         print(f"Starting FastAPI server on {args.host}:{args.port}")
         uvicorn.run(
             "ygg_torrent.fastapi_server:app",
@@ -52,8 +49,8 @@ def cli():
     else:
         print(f"Starting MCP server on {args.host}:{args.port}")
         mcp.run(
-            transport="stdio" if args.stdio else "sse",
-            **({} if args.stdio else {"host": args.host, "port": args.port}),
+            transport=args.mode,
+            **({} if args.mode == "stdio" else {"host": args.host, "port": args.port}),
         )
 
 

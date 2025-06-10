@@ -6,6 +6,8 @@
 
 This repository provides a Python wrapper for the YggTorrent website and an MCP (Model Context Protocol) server to interact with it programmatically. This allows for easy integration of YggTorrent functionalities into other applications or services.
 
+> [How to use it with MCP Clients](#via-mcp-clients)
+
 ## Table of Contents
 
 - [Features](#features)
@@ -28,7 +30,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
   - [As MCP Server](#as-mcp-server)
   - [As FastAPI Server](#as-fastapi-server)
   - [Via MCP Clients](#via-mcp-clients)
-    - [Example for Windsurf](#example-for-windsurf)
+    - [Example with Windsurf](#example-with-windsurf)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -36,7 +38,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 
 -   API wrapper for [YggAPI](https://yggapi.eu/), an unofficial API for YggTorrent
 -   **Your Ygg passkey is injected locally into the torrent file/magnet link, ensuring it's not exposed externally**
--   MCP server interface for standardized communication
+-   MCP server interface for standardized communication (stdio, sse, streamable-http)
 -   FastAPI server interface for alternative HTTP access (e.g., for direct API calls or testing)
 -   Search for torrents on YggTorrent
 -   Get details for a specific torrent
@@ -213,41 +215,42 @@ Environment variables (like `YGG_PASSKEY`) are configured the same way as for th
 
 ### Via MCP Clients
 
-Once the MCP server is running, you can interact with it using any MCP-compatible client. The server will expose endpoints for:
+Usable with any MCP-compatible client. Available tools:
 
 -   `search_torrents`: Search for torrents.
 -   `get_torrent_details`: Get details of a specific torrent.
 -   `get_magnet_link`: Get the magnet link for a torrent.
 -   `download_torrent_file`: Download the .torrent file for a torrent.
--   `get_torrent_categories`: Get the categories of torrents.
 
-#### Example for Windsurf
+#### Example with Windsurf
 Configuration:
 ```json
 {
   "mcpServers": {
     ...
-    "mcp-ygg-torrent-local": {
+    # with stdio (only requires uv installed)
+    "mcp-ygg-torrent": {
       "command": "uvx",
       "args": [
         "--from",
         "ygg-torrent-mcp",
         "--refresh",
-        "python",
-        "-m",
-        "ygg_torrent",
-        "--stdio"
+        "ygg-torrent",
       ],
       "env": { "YGG_PASSKEY": "your_passkey_here" }
     }
-    "mcp-ygg-torrent-remote": {
+    # with sse transport (requires installation)
+    "mcp-ygg-torrent": {
       "serverUrl": "http://127.0.0.1:8000/sse"
+    }
+    # with streamable-http transport (requires installation)
+    "mcp-ygg-torrent": {
+      "serverUrl": "http://127.0.0.1:8000/mcp" # not yet supported by every client
     }
     ...
   }
 }
 ```
-`mcp-ygg-torrent-local` requires [uv](https://github.com/astral-sh/uv#installation) installed.
 
 ## Contributing
 
