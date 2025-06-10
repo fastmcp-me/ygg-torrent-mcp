@@ -32,6 +32,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
   - [Via MCP Clients](#via-mcp-clients)
     - [Example with Windsurf](#example-with-windsurf)
 - [Contributing](#contributing)
+- [Changelog](#changelog)
 - [License](#license)
 
 ## Features
@@ -254,7 +255,11 @@ Configuration:
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request or open an Issue. If you plan to contribute, please ensure your code passes linting and tests (details to be added if a test suite is set up).
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a history of changes to this project.
 
 ## License
 
