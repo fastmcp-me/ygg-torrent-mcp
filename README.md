@@ -232,12 +232,7 @@ Configuration:
     # with stdio (only requires uv installed)
     "mcp-ygg-torrent": {
       "command": "uvx",
-      "args": [
-        "--from",
-        "ygg-torrent-mcp",
-        "--refresh",
-        "ygg-torrent",
-      ],
+      "args": ["--from", "ygg-torrent-mcp", "--refresh", "ygg-torrent"],
       "env": { "YGG_PASSKEY": "your_passkey_here" }
     }
     # with sse transport (requires installation)
