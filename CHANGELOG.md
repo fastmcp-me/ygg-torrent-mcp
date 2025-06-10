@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0]
+
+### 📚 Documentation
+
+- Add changelog section and simplify contributing guidelines
+
+### 🎨 Styling
+
+- Minor fix
+
+### ⚙️ Miscellaneous Tasks
+
+- Add git-cliff config and initial changelog
+
 ## [1.1.0] - 2025-06-10
 
 ### 🚀 Features

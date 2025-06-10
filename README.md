@@ -13,18 +13,11 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 - [Features](#features)
 - [Setup](#setup)
   - [Prerequisites](#prerequisites)
-  - [Option 1: Install from PyPI (Recommended for Users)](#option-1-install-from-pypi-recommended-for-users)
-  - [Option 2: Local Development Setup](#option-2-local-development-setup)
-    - [1. Clone the Repository](#1-clone-the-repository)
-    - [2. Create and Activate Virtual Environment](#2-create-and-activate-virtual-environment)
-    - [3. Install Dependencies for Development](#3-install-dependencies-for-development)
-    - [4. Configure Environment Variables](#4-configure-environment-variables)
-    - [5. Run the MCP Server (Local Development)](#5-run-the-mcp-server-local-development)
-  - [Option 3: Docker Setup](#option-3-docker-setup)
-    - [1. Clone the Repository (if not already done)](#1-clone-the-repository-if-not-already-done)
-    - [2. Configure Environment Variables (Docker)](#2-configure-environment-variables-docker)
-    - [3. Build and Run with Docker Compose](#3-build-and-run-with-docker-compose)
-    - [4. Accessing the Server (Docker)](#4-accessing-the-server-docker)
+  - [Configuration](#configuration)
+  - [Installation](#installation)
+    - [Install from PyPI (Recommended)](#install-from-pypi-recommended)
+    - [For Local Development](#for-local-development)
+    - [For Docker](#for-docker)
 - [Usage](#usage)
   - [As Python Wrapper](#as-python-wrapper)
   - [As MCP Server](#as-mcp-server)
@@ -38,135 +31,96 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 ## Features
 
 -   API wrapper for [YggAPI](https://yggapi.eu/), an unofficial API for YggTorrent
--   **Your Ygg passkey is injected locally into the torrent file/magnet link, ensuring it's not exposed externally**
+    -   **Your Ygg passkey is injected locally into the torrent file/magnet link, ensuring it's not exposed externally**
 -   MCP server interface for standardized communication (stdio, sse, streamable-http)
 -   FastAPI server interface for alternative HTTP access (e.g., for direct API calls or testing)
--   Search for torrents on YggTorrent
--   Get details for a specific torrent
--   Retrieve magnet links
--   Retrieve torrent files
--   Retrieve torrent categories
+-   Tools:
+    -   Search for torrents on YggTorrent
+    -   Get details for a specific torrent
+    -   Retrieve magnet links
+    -   Retrieve torrent files
+    -   Retrieve torrent categories
 
 ## Setup
 
-Choose one of the following methods to set up the project.
-
 ### Prerequisites
 
--   An active YggTorrent account with a passkey.
--   Python 3.10+ (required for PyPI install or local Python setup).
--   `pip` (Python package installer, usually comes with Python).
--   Docker and Docker Compose (required for Docker setup).
+-   An active YggTorrent account and passkey.
+-   Python 3.10+ (required for PyPI install).
+-   [`uv`](https://github.com/astral-sh/uv) (for local development)
+-   Docker and Docker Compose (for Docker setup)
 
-### Option 1: Install from PyPI (Recommended for Users)
+### Configuration
 
-If you just want to use the `ygg-torrent-mcp` package (either as a library or to run the MCP server), you can install it directly from PyPI:
+This application requires your YggTorrent passkey to interact with the API.
 
+1.  **Find your Passkey**: On the YggTorrent website, navigate to `Mon compte` -> `Mes paramètres`. Your passkey is part of the tracker URL, which looks like `http://tracker.p2p-world.net:8080/{YOUR_PASSKEY}/announce`.
+
+2.  **Set Environment Variable**: The application reads the passkey from the `YGG_PASSKEY` environment variable. The recommended way to set this is by creating a `.env` file in your project's root directory. The application will load it automatically.
+
+### Installation
+
+Choose one of the following installation methods.
+
+#### Install from PyPI (Recommended)
+
+This method is best for using the package as a library or running the server without modifying the code.
+
+1.  Install the package from PyPI:
 ```bash
 pip install ygg-torrent-mcp
 ```
-
-After installation, you'll need to configure environment variables:
-1.  Create a `.env` file in the directory where you plan to run your script or the MCP server.
-2.  Add your YggTorrent passkey to this file. You can find your passkey on YggTorrent by navigating to: `Mon compte` -> `Mes paramètres`. Your passkey is part of the tracker URL, like `http://tracker.p2p-world.net:8080/{YOUR_PASSKEY}/announce`.
+2.  Create a `.env` file in the directory where you'll run the application and add your passkey:
 ```env
 YGG_PASSKEY=your_passkey_here
 ```
-
-To run the MCP server after PyPI installation:
+3.  Run the MCP server (default port: 8000):
 ```bash
 python -m ygg_torrent
 ```
 
-### Option 2: Local Development Setup
+#### For Local Development
 
-If you want to contribute to the project or run it from the source code, this project uses `uv` for fast Python packaging and virtual environment management.
+This method is for contributors who want to modify the source code.
+Using [`uv`](https://github.com/astral-sh/uv):
 
-#### 1. Clone the Repository
+1.  Clone the repository:
 ```bash
 git clone https://github.com/philogicae/ygg-torrent-mcp.git
 cd ygg-torrent-mcp
 ```
-
-#### 2. Install Dependencies using `uv`
-
-After cloning, navigate into the project directory:
+2.  Install dependencies using `uv`:
 ```bash
-cd ygg-torrent-mcp
+uv sync
 ```
-This project uses [`uv`](https://github.com/astral-sh/uv), a fast Python package installer and resolver:
-- Without python: [How to install uv](https://github.com/astral-sh/uv#installation)
-- With python:
-```bash
-pip install uv
-```
-
-First, create a virtual environment using `uv`:
-```bash
-uv venv
-```
-Activate it:
-```bash
-# On Linux/macOS
-source .venv/bin/activate
-# On Windows (Command Prompt)
-.venv\Scripts\activate.bat
-# On Windows (PowerShell)
-.venv\Scripts\Activate.ps1
-```
-`uv` commands will typically auto-detect and use an active virtual environment or one named `.venv` in the project root.
-
-Next, install the project and its dependencies from `pyproject.toml`:
-```bash
-uv pip install -e .
-```
-
-#### 3. Configure Environment Variables
-
-Copy the `.env.example` file to `.env` in the root of the cloned repository:
+3.  Create your configuration file by copying the example and add your passkey:
 ```bash
 cp .env.example .env
 ```
-Then, edit the `.env` file and fill in your YggTorrent passkey. You can find your passkey on YggTorrent by navigating to: `Mon compte` -> `Mes paramètres`. Your passkey is part of the tracker URL, like `http://tracker.p2p-world.net:8080/{YOUR_PASSKEY}/announce`.
-```env
-YGG_PASSKEY=your_passkey_here
-```
 
-#### 4. Run the MCP Server (Local Development)
+4.  Run the MCP server (default port: 8000):
 ```bash
-python -m ygg_torrent
+uv run -m ygg_torrent
 ```
-The MCP server will be accessible locally on port 8000 by default.
 
-### Option 3: Docker Setup
+#### For Docker
 
-This project includes a `Dockerfile` and `docker-compose.yaml` for easy containerization.
+This method uses Docker to run the server in a container.
 
-#### 1. Clone the Repository (if not already done)
+1.  Clone the repository (if you haven't already):
 ```bash
 git clone https://github.com/philogicae/ygg-torrent-mcp.git
 cd ygg-torrent-mcp
 ```
-#### 2. Configure Environment Variables (Docker)
-
-Copy the `.env.example` file to `.env` in the root of the cloned repository:
+2.  Create your configuration file by copying the example and add your passkey:
 ```bash
 cp .env.example .env
 ```
-Then, edit the `.env` file and fill in your YggTorrent passkey. You can find your passkey on YggTorrent by navigating to: `Mon compte` -> `Mes paramètres`. Your passkey is part of the tracker URL, like `http://tracker.p2p-world.net:8080/{YOUR_PASSKEY}/announce`.
-```env
-YGG_PASSKEY=your_passkey_here
-```
 
-#### 3. Build and Run with Docker Compose
+3.  Build and run the container using Docker Compose (default port: 8765):
 ```bash
-docker-compose -f docker/compose.yaml up --build
+docker-compose -f docker/compose.yaml up --build [-d]
 ```
-This command will build the Docker image (if it doesn't exist yet) and start the MCP server service.
-
-#### 4. Accessing the Server (Docker)
-
-The MCP server, when run via Docker Compose using the provided `docker/compose.yaml`, will be accessible on port 8765 by default.
 
 ## Usage
 
@@ -232,7 +186,7 @@ Configuration:
     # with stdio (only requires uv installed)
     "mcp-ygg-torrent": {
       "command": "uvx",
-      "args": ["--from", "ygg-torrent-mcp", "--refresh", "ygg-torrent"],
+      "args": ["ygg-torrent-mcp"],
       "env": { "YGG_PASSKEY": "your_passkey_here" }
     }
     # with sse transport (requires installation)
@@ -248,13 +202,13 @@ Configuration:
 }
 ```
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for a history of changes to this project.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
 
 ## License
 
