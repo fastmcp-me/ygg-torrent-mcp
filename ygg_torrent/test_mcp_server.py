@@ -6,18 +6,24 @@ from fastmcp import Client
 from .mcp_server import mcp
 
 
+@pytest.fixture(scope="session")
+def mcp_client():
+    """Create a FastMCP client for testing."""
+    return Client(mcp)
+
+
 @pytest.mark.asyncio
-async def test_read_resource_torrent_categories():
+async def test_read_resource_torrent_categories(mcp_client):
     """Test reading the 'torrent_categories' resource."""
-    async with Client(mcp) as client:
+    async with mcp_client as client:
         result = await client.read_resource("data://torrent_categories")
         assert result is not None and result[0].text
 
 
 @pytest.mark.asyncio
-async def test_search_torrents():
+async def test_search_torrents(mcp_client):
     """Test the 'search_torrents' tool."""
-    async with Client(mcp) as client:
+    async with mcp_client as client:
         result = await client.call_tool(
             "search_torrents",
             {"query": "berserk", "categories": ["anime serie"], "limit": 3},
@@ -26,9 +32,9 @@ async def test_search_torrents():
 
 
 @pytest.mark.asyncio
-async def test_get_torrent_details_with_magnet():
+async def test_get_torrent_details_with_magnet(mcp_client):
     """Test the 'get_torrent_details' tool with magnet link request."""
-    async with Client(mcp) as client:
+    async with mcp_client as client:
         result = await client.call_tool(
             "get_torrent_details", {"torrent_id": 1268760, "with_magnet_link": True}
         )
@@ -36,17 +42,17 @@ async def test_get_torrent_details_with_magnet():
 
 
 @pytest.mark.asyncio
-async def test_get_magnet_link():
+async def test_get_magnet_link(mcp_client):
     """Test the 'get_magnet_link' tool."""
-    async with Client(mcp) as client:
+    async with mcp_client as client:
         result = await client.call_tool("get_magnet_link", {"torrent_id": 1268760})
         assert result is not None and result[0].text
 
 
 @pytest.mark.asyncio
-async def test_download_torrent_file():
+async def test_download_torrent_file(mcp_client):
     """Test the 'download_torrent_file' tool."""
-    async with Client(mcp) as client:
+    async with mcp_client as client:
         curr_dir = os.getcwd()
         result = await client.call_tool(
             "download_torrent_file", {"torrent_id": 1268760, "output_dir": curr_dir}
