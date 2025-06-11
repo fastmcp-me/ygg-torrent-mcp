@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] - 2025-06-11
+
+### 🚀 Features
+
+- Add quad9 DNS configuration to Docker setup for improved connectivity
+
+### 🐛 Bug Fixes
+
+- Make query parameter required in search_torrents method
+- Correct default port value in help message from 8001 to 8000
+
 ## [1.2.2] - 2025-06-11
 
 ### 🚜 Refactor
