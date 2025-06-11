@@ -797,7 +797,7 @@ wheels = [
 
 [[package]]
 name = "ygg-torrent-mcp"
-version = "1.2.2"
+version = "1.2.3"
 source = { editable = "." }
 dependencies = [
     { name = "bencodepy" },

@@ -10,7 +10,11 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
   <img width="380" height="200" src="https://glama.ai/mcp/servers/@philogicae/ygg-torrent-mcp/badge" alt="YggTorrent Server MCP server" />
 </a>
 
+## Quickstart
+
 > [How to use it with MCP Clients](#via-mcp-clients)
+
+> [Run it with Docker to bypass common DNS issues](#for-docker)
 
 ## Table of Contents
 
@@ -110,6 +114,8 @@ uv run -m ygg_torrent
 #### For Docker
 
 This method uses Docker to run the server in a container.
+
+compose.yaml is configured to bypass DNS issues (using [quad9](https://quad9.net/) DNS).
 
 1.  Clone the repository (if you haven't already):
 ```bash
