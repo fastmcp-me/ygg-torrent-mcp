@@ -2,7 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0]
+## [1.2.1] - 2025-06-11
+
+### ⚙️ Miscellaneous Tasks
+
+- Add .ruff_cache to gitignore file
+- Bump fastmcp dependency from 2.7.1 to 2.8.0
+
+## [1.2.0] - 2025-06-10
 
 ### 📚 Documentation
 
@@ -15,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Add git-cliff config and initial changelog
+- Improve package documentation and add ruff linter
 
 ## [1.1.0] - 2025-06-10
 
