@@ -8,9 +8,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+DUMMY_PASSKEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 YGG_PASSKEY = getenv("YGG_PASSKEY")
 if not YGG_PASSKEY:
-    raise ValueError("YGG_PASSKEY not found in .env file")
+    print("YGG_PASSKEY not found in .env file.\nFallbacking to dummy passkey.")
+    YGG_PASSKEY = DUMMY_PASSKEY
 
 
 def make_magnet_from_torrent_bytes(file_bytes: bytes) -> str:

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2025-06-11
+
+### 🚜 Refactor
+
+- Remove rich and add dummy passkey fallback
+
+### ⚙️ Miscellaneous Tasks
+
+- Update changelog for version 1.2.1 with dependency updates and gitignore changes
+
 ## [1.2.1] - 2025-06-11
 
 ### ⚙️ Miscellaneous Tasks

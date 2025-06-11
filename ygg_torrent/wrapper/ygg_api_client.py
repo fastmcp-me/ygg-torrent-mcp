@@ -3,11 +3,14 @@ from sys import argv
 from typing import Any
 
 from requests import Session, exceptions
-from rich import print as pr
 
 from .categories import get_categories
 from .models import Torrent
-from .torrent_editor import edit_torrent_bytes, make_magnet_from_torrent_bytes
+from .torrent_editor import (
+    DUMMY_PASSKEY,
+    edit_torrent_bytes,
+    make_magnet_from_torrent_bytes,
+)
 from .utils import check_categories, format_torrent
 
 
@@ -58,7 +61,7 @@ class YggTorrentApi:
                 return response.content
             return None
         except exceptions.RequestException as e:
-            pr(f"Request to {url} failed: {e}")
+            print(f"Request to {url} failed: {e}")
             return None
 
     def search_torrents(
@@ -121,11 +124,11 @@ class YggTorrentApi:
             Detailed torrent result.
         """
         if torrent_id < 1:
-            pr("torrent_id must be >= 1")
+            print("torrent_id must be >= 1")
             return None
         resp = self._request("GET", f"torrent/{torrent_id}")
         if not resp:
-            pr("Failed to get torrent details")
+            print("Failed to get torrent details")
             return None
         torrent = format_torrent(resp, torrent_id)
         if with_magnet_link:
@@ -146,10 +149,10 @@ class YggTorrentApi:
             The .torrent file content as bytes or an error dictionary.
         """
         if torrent_id < 1:
-            pr("torrent_id must be >= 1")
+            print("torrent_id must be >= 1")
             return None
         params = {
-            "passkey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",  # Dummy passkey
+            "passkey": DUMMY_PASSKEY,
             "tracker_domain": "tracker.p2p-world.net",  # will also add "connect.maxp2p.org" later
         }
         return self._request("GET", f"torrent/{torrent_id}/download", params=params)
@@ -169,7 +172,7 @@ class YggTorrentApi:
             if file_bytes and isinstance(file_bytes, bytes):
                 return make_magnet_from_torrent_bytes(file_bytes)
         except Exception as e:
-            pr(f"Failed to generate magnet link: {e}")
+            print(f"Failed to generate magnet link: {e}")
             return None
 
     def download_torrent_file(
@@ -193,8 +196,8 @@ class YggTorrentApi:
                     f.write(file_bytes)
                 return filename
         except Exception as e:
-            pr(f"Error: {e}")
-        pr("Failed to download torrent file")
+            print(f"Error: {e}")
+        print("Failed to download torrent file")
         return None
 
 
@@ -204,6 +207,6 @@ if __name__ == "__main__":
     client = YggTorrentApi()
     found_torrents = client.search_torrents(QUERY, CATEGORIES)
     if found_torrents:
-        pr(client.get_torrent_details(found_torrents[0].id, with_magnet_link=True))
+        print(client.get_torrent_details(found_torrents[0].id, with_magnet_link=True))
     else:
-        pr("No torrents found")
+        print("No torrents found")
