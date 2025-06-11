@@ -6,6 +6,10 @@
 
 This repository provides a Python wrapper for the YggTorrent website and an MCP (Model Context Protocol) server to interact with it programmatically. This allows for easy integration of YggTorrent functionalities into other applications or services.
 
+<a href="https://glama.ai/mcp/servers/@philogicae/ygg-torrent-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@philogicae/ygg-torrent-mcp/badge" alt="YggTorrent Server MCP server" />
+</a>
+
 > [How to use it with MCP Clients](#via-mcp-clients)
 
 ## Table of Contents
