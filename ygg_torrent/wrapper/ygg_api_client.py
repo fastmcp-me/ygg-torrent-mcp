@@ -66,7 +66,7 @@ class YggTorrentApi:
 
     def search_torrents(
         self,
-        query: str = "",
+        query: str,
         categories: list[int] | list[str] | None = None,
         page: int = 1,
         per_page: int = 25,
