@@ -1,12 +1,12 @@
+from typing import Any
+
 from fastmcp import FastMCP
 
 from .wrapper import Torrent, YggTorrentApi
 
-mcp = FastMCP(
-    "YggTorrentServer",
-    instructions="""
-        This server provides tools for interacting with the Ygg Torrent API.
-    """,
+mcp: FastMCP[Any] = FastMCP(
+    "YggTorrent Server",
+    instructions="This server provides tools for interacting with the Ygg Torrent API.",
 )
 ygg_api = YggTorrentApi()
 

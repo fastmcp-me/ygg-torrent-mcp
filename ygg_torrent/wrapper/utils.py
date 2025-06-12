@@ -3,12 +3,7 @@ from math import floor, log
 from math import pow as pw
 from typing import Any
 
-from .categories import (
-    get_categories,
-    get_category_id,
-    get_category_ids,
-    get_category_name,
-)
+from .categories import get_category_id, get_category_name
 from .models import Torrent
 
 
@@ -34,43 +29,41 @@ def format_date(date_str: str | None) -> str:
 
 def format_torrent(torrent: dict[str, Any], torrent_id: int | None = None) -> Torrent:
     """Converts a torrent data dictionary from the API into a Torrent model instance."""
-    cat_id = torrent.get("category_id")
+    cat_id: int | str = torrent.get("category_id") or "N/A"
     return Torrent(
-        id=torrent_id or torrent.get("id"),
-        filename=torrent.get("title"),
-        category=get_category_name(cat_id) or str(cat_id),
+        id=torrent_id or torrent.get("id") or 0,
+        filename=torrent.get("title") or "N/A",
+        category=(
+            get_category_name(cat_id) or str(cat_id)
+            if isinstance(cat_id, int)
+            else str(cat_id)
+        ),
         size=format_size(torrent.get("size")),
-        seeders=torrent.get("seeders"),
-        leechers=torrent.get("leechers"),
-        downloads=torrent.get("downloads") or None,
+        seeders=torrent.get("seeders") or 0,
+        leechers=torrent.get("leechers") or 0,
+        downloads=torrent.get("downloads") or 0,
         date=format_date(torrent.get("uploaded_at")),
         magnet_link=None,
     )
 
 
-def check_categories(categories: list[int | str]) -> list[int]:
+def check_categories(categories: list[int] | list[str] | None = None) -> list[int]:
     """Checks if the categories are valid."""
     processed_category_ids: list[int] = []
     if categories:
         if all(isinstance(cat, int) for cat in categories):
-            processed_category_ids = categories
+            processed_category_ids = list(set(categories))  # type: ignore
         elif all(isinstance(cat, str) for cat in categories):
-            temp_ids = []
+            temp_ids: list[int] = []
             for keyword_val in categories:
-                cat_id = get_category_id(keyword_val.lower())
+                cat_id = get_category_id(str(keyword_val).lower())
                 if cat_id is not None:
                     temp_ids.append(cat_id)
             if temp_ids:
                 processed_category_ids = list(set(temp_ids))
-            if not processed_category_ids and categories:
+            if not processed_category_ids:
                 print(
                     f"Warning: None of the provided category keywords matched: {categories}."
                     " Proceeding without category filter."
                 )
-        else:
-            raise TypeError(
-                "The 'categories' parameter must be a list of"
-                f" category IDs {get_category_ids()}"
-                f" or keywords {get_categories()}."
-            )
     return processed_category_ids

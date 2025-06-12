@@ -4,7 +4,6 @@ from pathlib import Path as PathLibPath
 
 from fastapi import FastAPI, HTTPException, Path, Query
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
 from starlette.background import BackgroundTask
 
 from .wrapper import Torrent, YggTorrentApi
@@ -17,20 +16,7 @@ app = FastAPI(
 api_client = YggTorrentApi()
 
 
-class MagnetLinkResponse(BaseModel):
-    magnet_link: str
-
-
-class SearchTorrentsRequest(BaseModel):
-    query: str
-    categories: list[str] | None = None
-    page: int = 1
-    per_page: int = 25
-    order_by: str = "seeders"
-
-
-# --- Helper Functions ---
-def cleanup_temp_dir(dir_path: str):
+def cleanup_temp_dir(dir_path: str) -> None:
     """Safely removes a directory and its contents."""
     try:
         shutil.rmtree(dir_path)
@@ -39,37 +25,12 @@ def cleanup_temp_dir(dir_path: str):
 
 
 # --- API Endpoints ---
-@app.get("/", summary="Health Check", tags=["General"])
-async def health_check():
+@app.get("/", summary="Health Check", tags=["General"], response_model=dict[str, str])
+async def health_check() -> dict[str, str]:
     """
     Endpoint to check the health of the service.
     """
     return {"status": "ok"}
-
-
-@app.post(
-    "/torrents/search",
-    summary="Search Torrents",
-    tags=["Torrents"],
-    response_model=list[Torrent] | None,
-)
-async def search_torrents(request_data: SearchTorrentsRequest):
-    """
-    Search for torrents on YggTorrent.
-    Corresponds to `YggTorrentApi.search_torrents()`.
-    """
-    results = api_client.search_torrents(
-        query=request_data.query,
-        categories=request_data.categories,
-        page=request_data.page,
-        per_page=request_data.per_page,
-        order_by=request_data.order_by,
-    )
-    if results is None:
-        raise HTTPException(
-            status_code=500, detail="Failed to fetch torrents from upstream API."
-        )
-    return results
 
 
 @app.get(
@@ -78,12 +39,38 @@ async def search_torrents(request_data: SearchTorrentsRequest):
     tags=["Torrents"],
     response_model=list[str],
 )
-async def get_torrent_categories():
+async def get_torrent_categories() -> list[str]:
     """
     Get a list of available torrent categories.
     Corresponds to `YggTorrentApi.get_torrent_categories()`.
     """
     return api_client.get_torrent_categories()
+
+
+@app.post(
+    "/torrents/search",
+    summary="Search Torrents",
+    tags=["Torrents"],
+    response_model=list[Torrent],
+)
+async def search_torrents(
+    query: str,
+    categories: list[str] | None = None,
+    page: int = 1,
+    per_page: int = 25,
+    order_by: str = "seeders",
+) -> list[Torrent]:
+    """
+    Search for torrents on YggTorrent.
+    Corresponds to `YggTorrentApi.search_torrents()`.
+    """
+    return api_client.search_torrents(
+        query=query,
+        categories=categories,
+        page=page,
+        per_page=per_page,
+        order_by=order_by,
+    )
 
 
 @app.get(
@@ -97,7 +84,7 @@ async def get_torrent_details(
     with_magnet_link: bool = Query(
         False, description="Include magnet link in the response."
     ),
-):
+) -> Torrent:
     """
     Get details for a specific torrent.
     Corresponds to `YggTorrentApi.get_torrent_details()`.
@@ -116,21 +103,21 @@ async def get_torrent_details(
     "/torrents/{torrent_id}/magnet",
     summary="Get Magnet Link",
     tags=["Torrents"],
-    response_model=MagnetLinkResponse,
+    response_model=str,
 )
 async def get_magnet_link(
     torrent_id: int = Path(..., ge=1, description="The ID of the torrent."),
-):
+) -> str:
     """
     Get the magnet link for a specific torrent.
     Corresponds to `YggTorrentApi.get_magnet_link()`.
     """
-    magnet = api_client.get_magnet_link(torrent_id)
-    if not magnet:
+    magnet_link = api_client.get_magnet_link(torrent_id)
+    if not magnet_link:
         raise HTTPException(
             status_code=404, detail="Magnet link not found or could not be generated."
         )
-    return MagnetLinkResponse(magnet_link=magnet)
+    return magnet_link
 
 
 @app.get(
@@ -141,7 +128,7 @@ async def get_magnet_link(
 )
 async def download_torrent_file(
     torrent_id: int = Path(..., ge=1, description="The ID of the torrent."),
-):
+) -> FileResponse:
     """
     Download the .torrent file for a specific torrent.
     Corresponds to `YggTorrentApi.download_torrent_file()`.
@@ -180,10 +167,7 @@ async def download_torrent_file(
     except Exception as e:
         if temp_dir_path:
             cleanup_temp_dir(temp_dir_path)
-        if isinstance(e, HTTPException):
-            raise
-        else:
-            raise HTTPException(
-                status_code=500,
-                detail=f"An error occurred while processing the torrent download: {str(e)}",
-            ) from e
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while processing the torrent download: {str(e)}",
+        ) from e

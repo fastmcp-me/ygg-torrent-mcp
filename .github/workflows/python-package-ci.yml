@@ -4,7 +4,7 @@ on: push
 
 jobs:
   test:
-    name: Run tests 🧪
+    name: Run ruff, mypy and pytest 🧪
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,8 +18,14 @@ jobs:
         run: uv sync --locked --no-cache --no-editable
       - name: Create dummy .env file
         run: echo "YGG_PASSKEY=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" > .env
+      - name: Run ruff format
+        run: uv run ruff format ygg_torrent
+      - name: Run ruff check
+        run: uv run ruff check ygg_torrent
+      - name: Run mypy
+        run: uv run mypy ygg_torrent
       - name: Run tests
-        run: uv run pytest
+        run: uv run pytest ygg_torrent
 
   build:
     name: Build distribution 📦

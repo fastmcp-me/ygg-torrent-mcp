@@ -2,7 +2,7 @@ from pathlib import Path
 from sys import argv
 from typing import Any
 
-from requests import Session, exceptions
+from requests import Session, exceptions  # type: ignore
 
 from .categories import get_categories
 from .models import Torrent
@@ -17,12 +17,21 @@ from .utils import check_categories, format_torrent
 class YggTorrentApi:
     """A client for interacting with the Ygg Torrent API."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the API client.
         """
         self.base_url = "https://yggapi.eu/"
-        self.session = Session()
+        self.session = Session()  # type: ignore
+
+    def get_torrent_categories(self) -> list[str]:
+        """
+        Get a list of available torrent categories.
+
+        Returns:
+            A list of category names.
+        """
+        return get_categories()
 
     def _request(
         self,
@@ -30,8 +39,8 @@ class YggTorrentApi:
         endpoint: str,
         params: dict[str, Any] | None = None,
         json_data: dict[str, Any] | None = None,
-        **kwargs,
-    ) -> dict[str, Any] | list[dict[str, Any]] | bytes | None:
+        **kwargs: Any,
+    ) -> Any:
         """
         Makes an HTTP request to the API.
 
@@ -52,7 +61,7 @@ class YggTorrentApi:
         try:
             response = self.session.request(
                 method, url, params=params, json=json_data, **kwargs
-            )
+            )  # type: ignore
             response.raise_for_status()
             content_type = response.headers.get("Content-Type", "")
             if "application/json" in content_type:
@@ -71,7 +80,7 @@ class YggTorrentApi:
         page: int = 1,
         per_page: int = 25,
         order_by: str = "seeders",
-    ) -> list[Torrent] | None:
+    ) -> list[Torrent]:
         """
         Get a list of torrents.
         Corresponds to GET /torrents
@@ -92,23 +101,16 @@ class YggTorrentApi:
         """
         params = {"q": query, "page": page, "per_page": per_page, "order_by": order_by}
 
-        processed_category_ids: list[int] = check_categories(categories)
+        processed_category_ids: list[int] = (
+            check_categories(categories) if categories else []
+        )
         if processed_category_ids:
             params["category_id"] = processed_category_ids
 
         torrents = self._request("GET", "torrents", params=params)
         if torrents:
             return [format_torrent(torrent) for torrent in torrents]
-        return None
-
-    def get_torrent_categories(self) -> list[str]:
-        """
-        Get a list of available torrent categories.
-
-        Returns:
-            A list of category names.
-        """
-        return get_categories()
+        return []
 
     def get_torrent_details(
         self, torrent_id: int, with_magnet_link: bool = False
@@ -155,7 +157,7 @@ class YggTorrentApi:
             "passkey": DUMMY_PASSKEY,
             "tracker_domain": "tracker.p2p-world.net",  # will also add "connect.maxp2p.org" later
         }
-        return self._request("GET", f"torrent/{torrent_id}/download", params=params)
+        return self._request("GET", f"torrent/{torrent_id}/download", params=params)  # type: ignore
 
     def get_magnet_link(self, torrent_id: int) -> str | None:
         """
@@ -173,7 +175,7 @@ class YggTorrentApi:
                 return make_magnet_from_torrent_bytes(file_bytes)
         except Exception as e:
             print(f"Failed to generate magnet link: {e}")
-            return None
+        return None
 
     def download_torrent_file(
         self, torrent_id: int, output_dir: str | Path = "."
@@ -203,10 +205,13 @@ class YggTorrentApi:
 
 if __name__ == "__main__":
     QUERY = argv[1] if len(argv) > 1 else None
+    if not QUERY:
+        print("Please provide a search query.")
+        exit(1)
     CATEGORIES = argv[2].split(",") if len(argv) > 2 else None
     client = YggTorrentApi()
-    found_torrents = client.search_torrents(QUERY, CATEGORIES)
-    if found_torrents:
+    found_torrents: list[Torrent] = client.search_torrents(QUERY, CATEGORIES)
+    if found_torrents and found_torrents[0].id:
         print(client.get_torrent_details(found_torrents[0].id, with_magnet_link=True))
     else:
         print("No torrents found")

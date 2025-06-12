@@ -5,7 +5,7 @@ import uvicorn
 from .mcp_server import mcp
 
 
-def cli():
+def cli() -> None:
     parser = argparse.ArgumentParser(description="Run YggTorrent Server.")
     parser.add_argument(
         "--mode",

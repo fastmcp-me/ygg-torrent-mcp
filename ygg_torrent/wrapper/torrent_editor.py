@@ -3,7 +3,7 @@ from hashlib import sha1
 from os import getenv
 from urllib import parse
 
-from bencodepy import decode, encode
+from bencodepy import decode, encode  # type: ignore
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,8 +17,8 @@ if not YGG_PASSKEY:
 
 def make_magnet_from_torrent_bytes(file_bytes: bytes) -> str:
     metadata = decode(file_bytes)
-    subj = metadata[b"info"]
-    hashcontents = encode(subj)
+    subj = metadata[b"info"]  # type: ignore
+    hashcontents = encode(subj)  # type: ignore
     digest = sha1(hashcontents).digest()
     b32hash = b32encode(digest).decode()
 
@@ -27,8 +27,8 @@ def make_magnet_from_torrent_bytes(file_bytes: bytes) -> str:
     else:
         total_length = subj[b"length"]
 
-    tracker = "http://tracker.p2p-world.net:8080/" + YGG_PASSKEY + "/announce"
-    tracker2 = "http://connect.maxp2p.org:8080/" + YGG_PASSKEY + "/announce"
+    tracker = f"http://tracker.p2p-world.net:8080/{YGG_PASSKEY}/announce"
+    tracker2 = f"http://connect.maxp2p.org:8080/{YGG_PASSKEY}/announce"
     return (
         "magnet:?xt=urn:btih:"
         + b32hash
@@ -45,7 +45,7 @@ def make_magnet_from_torrent_bytes(file_bytes: bytes) -> str:
 
 def edit_torrent_bytes(file_bytes: bytes) -> bytes:
     metadata = decode(file_bytes)
-    metadata[b"announce"] = (
-        b"http://tracker.p2p-world.net:8080/" + YGG_PASSKEY.encode() + b"/announce"
+    metadata[b"announce"] = (  # type: ignore
+        b"http://tracker.p2p-world.net:8080/" + str(YGG_PASSKEY).encode() + b"/announce"
     )
-    return encode(metadata)
+    return encode(metadata)  # type: ignore
