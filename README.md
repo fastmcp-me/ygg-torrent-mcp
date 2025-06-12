@@ -1,6 +1,9 @@
 # YggTorrent MCP Server & Wrapper
 
-[![PyPI version](https://badge.fury.io/py/ygg-torrent-mcp.svg?cache-control=no-cache)](https://badge.fury.io/py/ygg-torrent-mcp)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://docs.astral.sh/uv/getting-started/installation/)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![PyPI](https://badge.fury.io/py/ygg-torrent-mcp.svg?cache-control=no-cache)](https://badge.fury.io/py/ygg-torrent-mcp)
+[![Actions status](https://github.com/philogicae/ygg-torrent-mcp/actions/workflows/python-package-ci.yml/badge.svg?cache-control=no-cache)](https://github.com/philogicae/ygg-torrent-mcp/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/philogicae/ygg-torrent-mcp)
 
