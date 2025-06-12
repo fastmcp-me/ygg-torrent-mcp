@@ -16,8 +16,6 @@ jobs:
         run: pip install uv
       - name: Install dependencies
         run: uv sync --locked --no-cache --no-editable
-      - name: Create dummy .env file
-        run: echo "YGG_PASSKEY=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" > .env
       - name: Run ruff format
         run: uv run ruff format ygg_torrent
       - name: Run ruff check
