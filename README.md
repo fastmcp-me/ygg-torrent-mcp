@@ -1,13 +1,13 @@
 # YggTorrent MCP Server & Wrapper
 
-[![PyPI version](https://badge.fury.io/py/ygg-torrent-mcp.svg?kill_cache=1)](https://badge.fury.io/py/ygg-torrent-mcp)
+[![PyPI version](https://badge.fury.io/py/ygg-torrent-mcp.svg?cache-control=no-cache)](https://badge.fury.io/py/ygg-torrent-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/philogicae/ygg-torrent-mcp)
 
 This repository provides a Python wrapper for the YggTorrent website and an MCP (Model Context Protocol) server to interact with it programmatically. This allows for easy integration of YggTorrent functionalities into other applications or services.
 
 <a href="https://glama.ai/mcp/servers/@philogicae/ygg-torrent-mcp">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@philogicae/ygg-torrent-mcp/badge" alt="YggTorrent Server MCP server" />
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@philogicae/ygg-torrent-mcp/badge?cache-control=no-cache" alt="YggTorrent Server MCP server" />
 </a>
 
 ## Quickstart
