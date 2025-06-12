@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2025-06-12
+
+### 🚜 Refactor
+
+- Add mcp_client fixture to reduce client instantiation duplication in tests
+- Add mypy type checking and improve code quality
+
+### ⚙️ Miscellaneous Tasks
+
+- Add glama server configuration file
+
 ## [1.2.3] - 2025-06-11
 
 ### 🚀 Features
@@ -12,6 +23,10 @@ All notable changes to this project will be documented in this file.
 
 - Make query parameter required in search_torrents method
 - Correct default port value in help message from 8001 to 8000
+
+### 📚 Documentation
+
+- Update changelog for version 1.2.3 with DNS config and bug fixes
 
 ## [1.2.2] - 2025-06-11
 
