@@ -2,12 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2025-06-13
+
+### 🐛 Bug Fixes
+
+- Update badge URLs to prevent caching issues
+
+### 📚 Documentation
+
+- Add badges for uv, Python version, and CI status to README
+
+### ⚙️ Miscellaneous Tasks
+
+- Remove dummy .env file creation step from CI workflow
+- Bump version to 1.3.1 and remove unused dependencies
+
 ## [1.3.0] - 2025-06-12
 
 ### 🚜 Refactor
 
 - Add mcp_client fixture to reduce client instantiation duplication in tests
 - Add mypy type checking and improve code quality
+
+### 📚 Documentation
+
+- Update changelog for version 1.3.0 with refactoring and config changes
 
 ### ⚙️ Miscellaneous Tasks
 
