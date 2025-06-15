@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.3] - 2025-06-15
+
+### 🚜 Refactor
+
+- Rename limit parameter to max_items and update API documentation
+
 ## [1.3.2] - 2025-06-15
 
 ### ⚙️ Miscellaneous Tasks
 
 - Bump fastmcp to 2.8.1 and update dependencies versions
+- Bump fastmcp to 2.8.1 and update dependencies
 
 ## [1.3.1] - 2025-06-13
 
