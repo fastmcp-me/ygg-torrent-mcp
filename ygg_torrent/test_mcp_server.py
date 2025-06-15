@@ -27,7 +27,7 @@ async def test_search_torrents(mcp_client: Client[Any]) -> None:
     async with mcp_client as client:
         result = await client.call_tool(
             "search_torrents",
-            {"query": "berserk", "categories": ["anime serie"], "limit": 3},
+            {"query": "berserk", "categories": ["anime serie"], "max_items": 3},
         )
         assert result is not None and result[0].text
 

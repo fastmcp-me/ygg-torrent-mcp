@@ -59,6 +59,7 @@ async def search_torrents(
     page: int = 1,
     per_page: int = 25,
     order_by: str = "seeders",
+    max_items: int | None = None,
 ) -> list[Torrent]:
     """
     Search for torrents on YggTorrent.
@@ -70,7 +71,7 @@ async def search_torrents(
         page=page,
         per_page=per_page,
         order_by=order_by,
-    )
+    )[: max_items or per_page]
 
 
 @app.get(
