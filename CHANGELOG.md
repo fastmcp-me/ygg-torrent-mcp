@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.2] - 2025-06-15
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump fastmcp to 2.8.1 and update dependencies versions
+
 ## [1.3.1] - 2025-06-13
 
 ### 🐛 Bug Fixes
@@ -16,6 +22,7 @@ All notable changes to this project will be documented in this file.
 
 - Remove dummy .env file creation step from CI workflow
 - Bump version to 1.3.1 and remove unused dependencies
+- Prepare release 1.3.1 with badge updates and CI workflow fixes
 
 ## [1.3.0] - 2025-06-12
 
