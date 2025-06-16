@@ -1,1 +1,1 @@
-uv lock && uv sync -U --link-mode=copy && uv run ruff format ygg_torrent && uv run ruff check ygg_torrent && uv run mypy ygg_torrent && uv run pytest ygg_torrent
+uv lock && uv sync -U --link-mode=copy && uv run ruff format ygg_torrent && uv run ruff check ygg_torrent --fix && uv run mypy ygg_torrent && uv run pytest ygg_torrent
