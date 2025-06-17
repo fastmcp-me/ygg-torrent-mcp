@@ -2,11 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2025-06-18
+
+### 🚜 Refactor
+
+- Simplify max_items parameter with default value of 25 in torrent search endpoints
+- Rework on api/mcp logic to simplify params, optimize prompts, and reduce overall token consumption
+- Simplify Dockerfile by using single-stage build
+
+### ⚙️ Miscellaneous Tasks
+
+- Add auto-fix flag to ruff check command in dev script
+- Upgrade dependencies (fastapi 0.115.13, mypy 1.16.1)
+
 ## [1.3.3] - 2025-06-15
 
 ### 🚜 Refactor
 
 - Rename limit parameter to max_items and update API documentation
+
+### 📚 Documentation
+
+- Rename limit parameter to max_items in API documentation
 
 ## [1.3.2] - 2025-06-15
 
