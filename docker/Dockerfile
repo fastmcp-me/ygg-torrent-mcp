@@ -1,11 +1,7 @@
-FROM ghcr.io/astral-sh/uv:python3.13-alpine AS builder
-COPY pyproject.toml uv.lock ./
-RUN uv sync --locked --no-install-project --no-cache --no-editable
-
-FROM ghcr.io/astral-sh/uv:python3.13-alpine
-COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 COPY pyproject.toml uv.lock README.md ./
+RUN uv sync --locked --no-editable
 COPY ygg_torrent/ ./ygg_torrent/
 
 EXPOSE 8000
-CMD ["uv", "run", "-m", "ygg_torrent", "--mode", "sse"]
+CMD ["uv", "run", "--locked", "--no-sync", "-m", "ygg_torrent", "--mode", "sse"]
