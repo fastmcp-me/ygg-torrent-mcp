@@ -212,6 +212,6 @@ if __name__ == "__main__":
     client = YggTorrentApi()
     found_torrents: list[Torrent] = client.search_torrents(QUERY, CATEGORIES)
     if found_torrents and found_torrents[0].id:
-        print(client.get_torrent_details(found_torrents[0].id, with_magnet_link=True))
+        print(client.get_torrent_details(found_torrents[0].id))
     else:
         print("No torrents found")

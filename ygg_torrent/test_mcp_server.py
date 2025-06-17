@@ -33,12 +33,10 @@ async def test_search_torrents(mcp_client: Client[Any]) -> None:
 
 
 @pytest.mark.asyncio
-async def test_get_torrent_details_with_magnet(mcp_client: Client[Any]) -> None:
-    """Test the 'get_torrent_details' tool with magnet link request."""
+async def test_get_torrent_details(mcp_client: Client[Any]) -> None:
+    """Test the 'get_torrent_details' tool."""
     async with mcp_client as client:
-        result = await client.call_tool(
-            "get_torrent_details", {"torrent_id": 1268760, "with_magnet_link": True}
-        )
+        result = await client.call_tool("get_torrent_details", {"torrent_id": 1268760})
         assert result is not None and result[0].text
 
 
