@@ -2,13 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.4.0] - 2025-06-18
+## [1.5.0] - 2025-06-20
+
+### 🚀 Features
+
+- Improve torrent display format and switch to Alpine base image
+
+## [1.4.0] - 2025-06-17
 
 ### 🚜 Refactor
 
 - Simplify max_items parameter with default value of 25 in torrent search endpoints
 - Rework on api/mcp logic to simplify params, optimize prompts, and reduce overall token consumption
 - Simplify Dockerfile by using single-stage build
+
+### 📚 Documentation
+
+- Update changelog for version 1.4.0 with refactoring and dependency upgrades
 
 ### ⚙️ Miscellaneous Tasks
 
