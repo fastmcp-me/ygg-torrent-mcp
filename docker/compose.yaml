@@ -2,11 +2,12 @@ name: ygg-torrent-mcp
 
 services:
   ygg-torrent-mcp:
+    container_name: ygg-torrent-mcp
     build:
       context: ..
       dockerfile: docker/Dockerfile
     image: ygg-torrent-mcp
-    container_name: ygg-torrent-mcp
+    restart: unless-stopped
     ports:
       - 8765:8000
     env_file:

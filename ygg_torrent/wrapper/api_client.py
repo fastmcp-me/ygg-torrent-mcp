@@ -211,7 +211,8 @@ if __name__ == "__main__":
     CATEGORIES = argv[2].split(",") if len(argv) > 2 else None
     client = YggTorrentApi()
     found_torrents: list[Torrent] = client.search_torrents(QUERY, CATEGORIES)
-    if found_torrents and found_torrents[0].id:
-        print(client.get_torrent_details(found_torrents[0].id))
+    if found_torrents:
+        for torrent in found_torrents:
+            print(client.get_torrent_details(torrent.id))
     else:
         print("No torrents found")
