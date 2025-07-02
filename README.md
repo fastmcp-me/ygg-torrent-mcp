@@ -130,12 +130,12 @@ cp .env.example .env
 
 3.  Build and run the container using Docker Compose (default port: 8000):
 ```bash
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 4.  Access container logs:
 ```bash
-docker-compose logs ygg-torrent-mcp -f
+docker logs ygg-torrent-mcp -f
 ```
 
 ## Usage
