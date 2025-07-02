@@ -65,7 +65,7 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 
 This application requires your YggTorrent passkey to interact with the API.
 
-1.  **Find your Passkey**: On the YggTorrent website, navigate to `Mon compte` -> `Mes paramètres`. Your passkey is part of the tracker URL, which looks like `http://tracker.p2p-world.net:8080/{YOUR_PASSKEY}/announce`.
+1.  **Find your Passkey**: On the YggTorrent website, navigate to `Mon compte` -> `PASSKEY` field.
 
 2.  **Set Environment Variable**: The application reads the passkey from the `YGG_PASSKEY` environment variable. The recommended way to set this is by creating a `.env` file in your project's root directory. The application will load it automatically.
 
