@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 📚 Documentation
+
+- Update Docker commands to use modern syntax
+
+### ⚙️ Miscellaneous Tasks
+
+- Remove version constraints from dev dependencies
+
 ## [1.6.1] - 2025-07-02
 
 ### 🚜 Refactor
@@ -11,6 +21,7 @@ All notable changes to this project will be documented in this file.
 ### 📚 Documentation
 
 - Update YggTorrent passkey location in setup instructions
+- Update changelog for v1.6.1 with Docker refactor and passkey instructions
 
 ### ⚙️ Miscellaneous Tasks
 

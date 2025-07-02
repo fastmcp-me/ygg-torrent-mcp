@@ -16,7 +16,6 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 ## Quickstart
 
 > [How to use it with MCP Clients](#via-mcp-clients)
-
 > [Run it with Docker to bypass common DNS issues](#for-docker)
 
 ## Table of Contents
@@ -127,12 +126,10 @@ cd ygg-torrent-mcp
 ```bash
 cp .env.example .env
 ```
-
 3.  Build and run the container using Docker Compose (default port: 8000):
 ```bash
 docker compose up --build -d
 ```
-
 4.  Access container logs:
 ```bash
 docker logs ygg-torrent-mcp -f
