@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.1] - 2025-07-02
+
+### 🚜 Refactor
+
+- Reorganize Docker setup with multi-stage build and simplified compose config
+
+### 📚 Documentation
+
+- Update YggTorrent passkey location in setup instructions
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 1.6.1 and remove dependency version constraints
+
 ## [1.6.0] - 2025-07-02
 
 ### 🐛 Bug Fixes
@@ -11,6 +25,7 @@ All notable changes to this project will be documented in this file.
 ### 📚 Documentation
 
 - Update changelog for version 1.5.0 with Alpine migration and display improvements
+- Update changelog for version 1.6.0 with bug fixes and documentation updates
 
 ## [1.5.0] - 2025-06-19
 
