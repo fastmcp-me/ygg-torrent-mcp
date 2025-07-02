@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.5.0] - 2025-06-20
+## [1.6.0] - 2025-07-02
+
+### 🐛 Bug Fixes
+
+- Update dependencies and ajust tests
+
+### 📚 Documentation
+
+- Update changelog for version 1.5.0 with Alpine migration and display improvements
+
+## [1.5.0] - 2025-06-19
 
 ### 🚀 Features
 
