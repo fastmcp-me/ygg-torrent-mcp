@@ -66,7 +66,6 @@ This repository provides a Python wrapper for the YggTorrent website and an MCP 
 This application requires your YggTorrent passkey to interact with the API.
 
 1.  **Find your Passkey**: On the YggTorrent website, navigate to `Mon compte` -> `PASSKEY` field.
-
 2.  **Set Environment Variable**: The application reads the passkey from the `YGG_PASSKEY` environment variable. The recommended way to set this is by creating a `.env` file in your project's root directory. The application will load it automatically.
 
 ### Installation
@@ -85,7 +84,7 @@ pip install ygg-torrent-mcp
 ```env
 YGG_PASSKEY=your_passkey_here
 ```
-3.  Run the MCP server (default port: 8000):
+3.  Run the MCP server (default: stdio):
 ```bash
 python -m ygg_torrent
 ```
@@ -102,14 +101,13 @@ cd ygg-torrent-mcp
 ```
 2.  Install dependencies using `uv`:
 ```bash
-uv sync
+uv sync --locked
 ```
 3.  Create your configuration file by copying the example and add your passkey:
 ```bash
 cp .env.example .env
 ```
-
-4.  Run the MCP server (default port: 8000):
+4.  Run the MCP server (default: stdio):
 ```bash
 uv run -m ygg_torrent
 ```
@@ -130,9 +128,14 @@ cd ygg-torrent-mcp
 cp .env.example .env
 ```
 
-3.  Build and run the container using Docker Compose (default port: 8765):
+3.  Build and run the container using Docker Compose (default port: 8000):
 ```bash
-docker-compose -f docker/compose.yaml up --build [-d]
+docker-compose up --build -d
+```
+
+4.  Access container logs:
+```bash
+docker-compose logs ygg-torrent-mcp -f
 ```
 
 ## Usage
@@ -161,10 +164,10 @@ This project also includes a FastAPI server as an alternative way to interact wi
 
 **Running the FastAPI Server:**
 ```bash
-# Dev
-python -m ygg_torrent --fastapi
-# Prod
-uvicorn ygg_torrent.fastapi_server:app
+# With Python
+python -m ygg_torrent --mode fastapi
+# With uv
+uv run -m ygg_torrent --mode fastapi
 ```
 - `--host <host>`: Default: `0.0.0.0`.
 - `--port <port>`: Default: `8000`.
@@ -197,17 +200,17 @@ Configuration:
   "mcpServers": {
     ...
     # with stdio (only requires uv installed)
-    "mcp-ygg-torrent": {
+    "ygg-torrent-mcp": {
       "command": "uvx",
       "args": ["ygg-torrent-mcp"],
       "env": { "YGG_PASSKEY": "your_passkey_here" }
     }
     # with sse transport (requires installation)
-    "mcp-ygg-torrent": {
+    "ygg-torrent-mcp": {
       "serverUrl": "http://127.0.0.1:8000/sse"
     }
     # with streamable-http transport (requires installation)
-    "mcp-ygg-torrent": {
+    "ygg-torrent-mcp": {
       "serverUrl": "http://127.0.0.1:8000/mcp" # not yet supported by every client
     }
     ...
