@@ -30,7 +30,7 @@ async def test_search_torrents(mcp_client: Client[Any]) -> None:
             {"query": "berserk", "categories": ["anime serie"], "max_items": 3},
         )
         assert (
-            result is not None and len(result[0].text) > 32
+            result is not None and len(result.content[0].text) > 32
         )  # At least 1 torrent found
 
 
@@ -39,7 +39,7 @@ async def test_get_torrent_details(mcp_client: Client[Any]) -> None:
     """Test the 'get_torrent_details' tool."""
     async with mcp_client as client:
         result = await client.call_tool("get_torrent_details", {"torrent_id": 1268760})
-        assert result is not None and len(result[0].text) > 32  # Torrent found
+        assert result is not None and len(result.content[0].text) > 32  # Torrent found
 
 
 @pytest.mark.asyncio
@@ -47,7 +47,9 @@ async def test_get_magnet_link(mcp_client: Client[Any]) -> None:
     """Test the 'get_magnet_link' tool."""
     async with mcp_client as client:
         result = await client.call_tool("get_magnet_link", {"torrent_id": 1268760})
-        assert result is not None and len(result[0].text) > 32  # Magnet link found
+        assert (
+            result is not None and len(result.content[0].text) > 32
+        )  # Magnet link found
 
 
 @pytest.mark.asyncio
@@ -58,8 +60,10 @@ async def test_download_torrent_file(mcp_client: Client[Any]) -> None:
         result = await client.call_tool(
             "download_torrent_file", {"torrent_id": 1268760, "output_dir": curr_dir}
         )
-        assert result is not None and len(result[0].text) > 4  # Torrent file found
+        assert (
+            result is not None and len(result.content[0].text) > 4
+        )  # Torrent file found
         if result:
-            file_path = os.path.join(curr_dir, result[0].text)
+            file_path = os.path.join(curr_dir, result.content[0].text)
             if os.path.exists(file_path):
                 os.remove(file_path)
