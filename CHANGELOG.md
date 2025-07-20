@@ -2,15 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.7.0] - 2025-07-20
+
+### 🚀 Features
+
+- Add prepare_search_query tool to improve torrent search accuracy
 
 ### 📚 Documentation
 
 - Update Docker commands to use modern syntax
+- Update Docker syntax and remove version constraints in dev dependencies
 
 ### ⚙️ Miscellaneous Tasks
 
 - Remove version constraints from dev dependencies
+- Optimize GitHub Actions workflow with uv caching and tagged releases
+- Update dependencies including authlib 1.6.1, fastapi 0.116.1 and mypy 1.17.0
 
 ## [1.6.1] - 2025-07-02
 
