@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.1] - 2025-08-04
+
+### ⚙️ Miscellaneous Tasks
+
+- Update dependencies including anyio 4.10.0 and fastmcp 2.11.0
+
 ## [1.7.0] - 2025-07-20
 
 ### 🚀 Features
@@ -18,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Remove version constraints from dev dependencies
 - Optimize GitHub Actions workflow with uv caching and tagged releases
 - Update dependencies including authlib 1.6.1, fastapi 0.116.1 and mypy 1.17.0
+- Prepare release 1.7.0 with search query tool and dependency updates
 
 ## [1.6.1] - 2025-07-02
 
