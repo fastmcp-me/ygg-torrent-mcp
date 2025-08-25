@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.0] - 2025-08-25
+
+### ⚙️ Miscellaneous Tasks
+
+- Upgrade deps
+
 ## [1.7.1] - 2025-08-04
 
 ### ⚙️ Miscellaneous Tasks
 
 - Update dependencies including anyio 4.10.0 and fastmcp 2.11.0
+- Update dependencies to anyio 4.10.0 and fastmcp 2.11.0
 
 ## [1.7.0] - 2025-07-20
 
