@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.1] - 2025-09-30
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version from 1.8.0 to 1.8.1
+
 ## [1.8.0] - 2025-08-25
 
 ### ⚙️ Miscellaneous Tasks
 
 - Upgrade deps
+- Update changelog for v1.8.0 release with dependency upgrades
 
 ## [1.7.1] - 2025-08-04
 
